@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,6 +33,16 @@ public class TeacherSignUpController {
 		return teacherRepo.findAll();
 	}
 	
+	@RequestMapping( value ="/teacher_details/login/user", method= RequestMethod.POST, consumes = { "multipart/form-data" })
+	public TeacherDetails getTeacherDetail(@RequestParam("email") String email) {
+		return teacherRepo.findById(email).get();
+	}
+	
+	@GetMapping( value = "/teacher_details/login")
+	public void login() {
+		
+	}
+	
 	@PostMapping("/teacher_details")
 	public void saveTeacherDetails(@RequestBody TeacherDetails teacherDetails) {
 		teacherRepo.save(teacherDetails);
@@ -47,14 +58,14 @@ public class TeacherSignUpController {
 	
 	@PostMapping("/teacher_details/validate_user")
 	public ResponseEntity<String> validateUser(@RequestBody TeacherDetails teacherDetails){
-		System.out.println(teacherRepo.findById(teacherDetails.getEmail()));
-		if(teacherRepo.findById(teacherDetails.getEmail()).isPresent()) {
-			return new ResponseEntity<>("1", HttpStatus.BAD_REQUEST);
-		}else if(teacherRepo.findByNic(teacherDetails.getNic()) != null) {
-			return new ResponseEntity<>("2", HttpStatus.BAD_REQUEST);
-		}else {
-			return new ResponseEntity<>("OK", HttpStatus.OK);
-		}
-//		return new ResponseEntity<>("OK", HttpStatus.OK);
+//		System.out.println(teacherRepo.findById(teacherDetails.getEmail()));
+//		if(teacherRepo.findById(teacherDetails.getEmail()).isPresent()) {
+//			return new ResponseEntity<>("1", HttpStatus.BAD_REQUEST);
+//		}else if(teacherRepo.findByNic(teacherDetails.getNic()) != null) {
+//			return new ResponseEntity<>("2", HttpStatus.BAD_REQUEST);
+//		}else {
+//			return new ResponseEntity<>("OK", HttpStatus.OK);
+//		}
+		return new ResponseEntity<>("OK", HttpStatus.OK);
 	}
 }
