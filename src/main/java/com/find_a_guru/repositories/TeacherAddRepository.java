@@ -14,4 +14,6 @@ public interface TeacherAddRepository extends JpaRepository<TeacherAdd, Integer>
 	
 		//	@Query("FROM TeacherAdd WHERE grade = ?1 AND subject = ?2 AND district = ?3 AND city = ?4")
 	List<TeacherAdd> findByGradeAndSubjectAndDistrictAndCity(int grade, String subject, String district, String city);
+	
+	List<TeacherAdd> findByGradeAndSubjectAndDistrict(int grade, String subject, String district);
 }
