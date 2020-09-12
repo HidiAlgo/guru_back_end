@@ -47,6 +47,11 @@ public class TeacherAddController {
 		return teacherAddRepo.save(add);
 	}
 	
+	@GetMapping(value="/teacher_details/getAddCount/{email}")
+	public int getNumberOfAdds(@PathVariable String email) {
+		return (int)teacherAddRepo.findByTeacherEmail(email).stream().count();
+	}
+	
 	@PutMapping(value = "/teacher_details/edit_add")
 	public void editAdd(@RequestBody TeacherAdd add) {
 		TeacherAdd oldAdd = teacherAddRepo.findById(add.getId()).get();
@@ -92,6 +97,10 @@ public class TeacherAddController {
 			teacherAdds = teacherAddRepo.findByGradeAndSubjectAndDistrict(grade, subject, district);
 		}else {
 			teacherAdds = teacherAddRepo.findByGradeAndSubjectAndDistrictAndCity(grade, subject, district, city);
+			List<TeacherAdd> allAdds = teacherAddRepo.findByGradeAndSubjectAndDistrictAndCity(grade, subject, district, district);
+			for(TeacherAdd a : allAdds) {
+				teacherAdds.add(a);
+			}
 		}
 		
 		List<TeacherAddForStudent> teacherAddsForStudent = new ArrayList<>();
